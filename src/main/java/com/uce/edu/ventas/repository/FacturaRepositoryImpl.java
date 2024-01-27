@@ -1,5 +1,7 @@
 package com.uce.edu.ventas.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.uce.edu.ventas.repository.modelo.Factura;
@@ -31,6 +33,61 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 	public void insertar(Factura factura) {
 		// TODO Auto-generated method stub
 		this.entityManager.persist(factura);
+	}
+
+	@Override
+	public List<Factura> seleccionarFacturasInnerJoin() {
+		// TODO Auto-generated method stub
+		//SQL: SELECT * FROM factura f inner join detalle_factura d on f.fct_id=d.defa_id_factura
+		//JPQL: SELECT f FROM Factura f INNER JOIN f.detalleFactura d
+		//JPQL: SELECT f FROM Factura f JOIN f.detalleFactura d (Es exactamente lo mismo que el de arriba)
+		TypedQuery<Factura> myQuery = this.entityManager.createQuery("SELECT f FROM Factura f JOIN f.detalleFactura d",Factura.class);
+		
+		List<Factura> lista = myQuery.getResultList();
+		for(Factura f:lista) {
+			f.getDetalleFactura().size();
+		}
+		return lista;
+	}
+
+	@Override
+	public List<Factura> seleccionarFacturasRightJoin() {
+		// TODO Auto-generated method stub
+		
+		TypedQuery<Factura> myQuery = this.entityManager.createQuery("SELECT f FROM Factura f RIGHT JOIN f.detalleFactura d",
+				Factura.class);
+
+		List<Factura> lista = myQuery.getResultList();
+		for (Factura f : lista) {
+			f.getDetalleFactura().size();
+		}
+		return lista;
+	}
+
+	@Override
+	public List<Factura> seleccionarFacturasLeftJoin() {
+		// TODO Auto-generated method stub
+		TypedQuery<Factura> myQuery = this.entityManager.createQuery("SELECT f FROM Factura f LEFT JOIN f.detalleFactura d",
+				Factura.class);
+
+		List<Factura> lista = myQuery.getResultList();
+		for (Factura f : lista) {
+			f.getDetalleFactura().size();
+		}
+		return lista;
+	}
+
+	@Override
+	public List<Factura> seleccionarFacturasFullJoin() {
+		// TODO Auto-generated method stub
+		TypedQuery<Factura> myQuery = this.entityManager.createQuery("SELECT f FROM Factura f FULL JOIN f.detalleFactura d",
+				Factura.class);
+
+		List<Factura> lista = myQuery.getResultList();
+		for (Factura f : lista) {
+			f.getDetalleFactura().size();
+		}
+		return lista;
 	}
 
 }
