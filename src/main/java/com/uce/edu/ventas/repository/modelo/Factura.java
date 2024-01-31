@@ -36,6 +36,9 @@ public class Factura {
 	@OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //este es el nombre q se pone en la otra clase que se mapea detalle factura
 	private List<DetalleFactura> detalleFactura;
 	
+	//100columnas
+	//Select 2 columnas
+	//select 100 columnas
 	
 	//GETTERS AND SETTERS
 	public Integer getId() {
