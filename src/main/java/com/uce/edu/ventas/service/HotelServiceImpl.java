@@ -38,5 +38,11 @@ public class HotelServiceImpl implements IHotelService{
 		return this.hotelRepository.seleccionarHabitacionesFullJoin(tipo);
 	}
 
+	@Override
+	public List<Hotel> buscarHotelFetchJoin() {
+		// TODO Auto-generated method stub
+		return this.hotelRepository.seleccionarHabitacionFetchJoin();
+	}
+
 	
 }

@@ -3,6 +3,7 @@ package com.uce.edu.ventas.repository;
 import java.util.List;
 
 import com.uce.edu.ventas.repository.modelo.Hotel;
+import com.uce.edu.ventas.repository.modelo.Libro2;
 
 public interface IHotelRepository {
 
@@ -16,5 +17,8 @@ public interface IHotelRepository {
 		public List<Hotel> seleccionarHabitacionesLeftJoin(String clase);
 
 		public List<Hotel> seleccionarHabitacionesFullJoin(String clase);
+		
+		public List <Hotel> seleccionarHabitacionFetchJoin();
+
 	
 }
