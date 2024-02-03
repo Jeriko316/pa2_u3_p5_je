@@ -1,15 +1,16 @@
 package com.uce.edu;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.uce.edu.ventas.repository.modelo.AutorLibro;
-import com.uce.edu.ventas.repository.modelo.Hotel;
-import com.uce.edu.ventas.repository.modelo.Libro2;
+import com.uce.edu.ventas.repository.modelo.Cliente;
+import com.uce.edu.ventas.repository.modelo.Factura;
+import com.uce.edu.ventas.service.IClienteService;
 import com.uce.edu.ventas.service.IFacturaService;
 import com.uce.edu.ventas.service.IHotelService;
 import com.uce.edu.ventas.service.ILibroService;
@@ -19,6 +20,9 @@ public class Pa2U3P5JeApplication implements CommandLineRunner {
 
 	@Autowired
 	private IFacturaService iFacturaService;
+	
+	@Autowired
+	private IClienteService clienteService;
 
 	@Autowired
 	private IHotelService hotelService;
@@ -42,78 +46,17 @@ public class Pa2U3P5JeApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("INNER JOIN N° 1");
-		List<Libro2> lista = this.libroService.buscarLibroInnerJoin();
-		for (Libro2 f : lista) {
-			System.out.println(f);
-		}
-
-		System.out.println("RIGTH JOIN N° 1");
-		List<Libro2> lista2 = this.libroService.buscarLibroRigthJoin();
-		for (Libro2 f : lista2) {
-			System.out.println(f);
-		}
-
-		System.out.println("LEFT JOIN N° 1");
-		List<Libro2> lista3 = this.libroService.buscarLibroLeftJoin();
-		for (Libro2 f : lista3) {
-			System.out.println(f);
-		}
-
-		System.out.println("FULL JOINS");
-		List<Libro2> lista4 = this.libroService.buscarLibroFullJoin();
-		for (Libro2 f : lista4) {
-			System.out.println(f);
-		}
-
-		System.out.println("FETCH JOINS");
-		List<Libro2> lista5 = this.libroService.buscarLibroFetchJoin();
-		for (Libro2 f : lista5) {
-			System.out.println(f.getTitulo());
-			for (AutorLibro d : f.getAutoresLibros()) {
-				System.out.println(d.getFecha());
-			}
-
-		}
+		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
+		Factura fact = new Factura();
+		fact.setCedula("12345");
+		fact.setFecha(LocalDateTime.now());
+		fact.setNumero("001-002");
 		
-		System.out.println("INNER JOIN N° 2");
-		List<Hotel> lista6 = this.hotelService.buscarHabitacionesInnerJoin("vip");
-		for (Hotel f : lista6) {
-			System.out.println("////////////////////");
-			System.out.println(f);
-		}
-
-		/////////////////////////////////////////////////
-		System.out.println("RIGTH JOINS n°2");
-		List<Hotel> lista7 = this.hotelService.buscarHabitacionesRightJoin("normal");
-		for (Hotel f : lista7) {
-			System.out.println("////////////////////");
-			System.out.println(f);
-		}
-
-		/////////////////////////////////////////////////
-		System.out.println("LEFT JOINS n°2");
-		List<Hotel> lista8 = this.hotelService.buscarHabitacionesLeftJoin("normal");
-		for (Hotel f : lista8) {
-			System.out.println("////////////////////");
-			System.out.println(f);
-		}
-
-		/////////////////////////////////////////////////
-		System.out.println("FULL JOINS n°2");
-		List<Hotel> lista9 = this.hotelService.buscarHabitacionesFullJoin("normal");
-		for (Hotel f : lista9) {
-			System.out.println("////////////////////");
-			System.out.println(f);
-		}
+		Cliente cli = new Cliente();
+		cli.setApellido(null);
+		cli.setNombre("edison");
 		
-		System.out.println("FETCH JOINS n°2");
-		List<Hotel> lista10 = this.hotelService.buscarHotelFetchJoin();
-		for (Hotel f : lista10) {
-			System.out.println(f.getNombre());
-
-		}
-
+		this.iFacturaService.guardar(fact, cli);
 	}
 
 }
