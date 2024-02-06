@@ -18,7 +18,10 @@ public class ClienteRepositoryImpl implements IClienteRepository{
 	@Override
 	public void insertatar(Cliente cliente) {
 		// TODO Auto-generated method stub
+		System.out.println("antes de ejecutar en la base");
 		this.entityManager.persist(cliente);
+		System.out.println("despues de ejecutar en la base");
+
 	}
 
 }

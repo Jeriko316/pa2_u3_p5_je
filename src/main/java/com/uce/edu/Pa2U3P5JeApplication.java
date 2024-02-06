@@ -56,7 +56,10 @@ public class Pa2U3P5JeApplication implements CommandLineRunner {
 		cli.setApellido(null);
 		cli.setNombre("edison");
 		
-		this.iFacturaService.guardar(fact, cli);
+		//this.iFacturaService.guardar(fact, cli);
+		System.out.println("Main: "+ TransactionSynchronizationManager.isActualTransactionActive());
+
+		this.iFacturaService.prueba();
 	}
 
 }
