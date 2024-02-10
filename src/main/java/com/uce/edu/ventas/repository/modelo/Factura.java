@@ -1,5 +1,6 @@
 package com.uce.edu.ventas.repository.modelo;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="factura")
@@ -32,6 +34,17 @@ public class Factura {
 	
 	@Column(name="fact_cedula")
 	private String cedula;
+	
+	@Transient
+	private BigDecimal valorIVA;
+
+	public BigDecimal getValorIVA() {
+		return valorIVA;
+	}
+
+	public void setValorIVA(BigDecimal valorIVA) {
+		this.valorIVA = valorIVA;
+	}
 
 	@OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //este es el nombre q se pone en la otra clase que se mapea detalle factura
 	private List<DetalleFactura> detalleFactura;

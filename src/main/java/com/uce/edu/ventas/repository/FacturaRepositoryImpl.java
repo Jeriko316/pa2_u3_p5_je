@@ -17,6 +17,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @Repository
 @Transactional
@@ -37,10 +38,21 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 	}
 
 	@Override
+	//@Transactional(value=TxType.MANDATORY) //mandatory exige q haya una transacion abierta sino lanza una excepcion
 	public void insertar(Factura factura) {
 		// TODO Auto-generated method stub
 		this.entityManager.persist(factura);
 	}
+
+//	@Transactional(value= TxType.NOT_SUPPORTED)
+//	public Factura buscar() {
+//		
+//	}
+	
+//	inset SI (MANDATORY)(ASEGURA QUE SEA LLAMADO DESDE UNA TRANSACCION)
+//	UPDATEset SI (MANDATORY)(ASEGURA QUE SEA LLAMADO DESDE UNA TRANSACCION)
+//	DELETE SI (MANDATORY)(ASEGURA QUE SEA LLAMADO DESDE UNA TRANSACCION)
+//	SELECT NO (NOT_SUPPORTED)(ASEGURA QUE SEA LLAMADO DESDE UNA TRANSACCION)
 
 	@Override
 	public List<Factura> seleccionarFacturasInnerJoin() {
@@ -173,7 +185,19 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		return myQuery.getResultList();
 	}
 
-	
+	@Override
+	//@Transactional(value= TxType.NOT_SUPPORTED)
+	public List<Factura> seleccionarTodos() {
+		// TODO Auto-generated method stub
+		TypedQuery<Factura> myQuery = this.entityManager.createQuery("SELECT f FROM Factura f",Factura.class);
+		return myQuery.getResultList();
+	}
+
+//	@Override
+//	@Transactional(value=TxType.NOT_SUPPORTED)
+//	public Factura buscar() {
+//		
+//	}
 
 	
 }

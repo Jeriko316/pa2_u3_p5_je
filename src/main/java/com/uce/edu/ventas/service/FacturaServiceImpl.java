@@ -105,12 +105,37 @@ public class FacturaServiceImpl implements IFacturaService{
 	}
 
 	@Override
-	@Transactional(value= TxType.MANDATORY)
+	@Transactional(value= TxType.MANDATORY)//obliga a que desde donde se lo llama tenga una transaccion
 	public void prueba() {
 		// TODO Auto-generated method stub
 		System.out.println("este metodo es de prueba");
 		System.out.println("prueba: "+ TransactionSynchronizationManager.isActualTransactionActive());
 
 	}
+
+	@Override
+	public void pruebaSupports() {
+		// TODO Auto-generated method stub
+		System.out.println("prueba factura: " + TransactionSynchronizationManager.isActualTransactionActive());
+		this.iClienteService.pruebaSupports();
+	}
+	
+	
+	@Transactional(value=TxType.REQUIRED)
+	public void pruebaSupports2() {
+		// TODO Auto-generated method stub
+		System.out.println("prueba factura: " + TransactionSynchronizationManager.isActualTransactionActive());
+		this.iClienteService.pruebaSupports();
+	}
+
+	@Override
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public void pruebaNever() {
+		// TODO Auto-generated method stub
+		System.out.println("prueba factura: " + TransactionSynchronizationManager.isActualTransactionActive());
+		this.iClienteService.pruebaNever();
+	}
+	
+	
 
 }
