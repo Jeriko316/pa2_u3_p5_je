@@ -1,15 +1,14 @@
 package com.uce.edu;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.uce.edu.ventas.repository.modelo.Cliente;
-import com.uce.edu.ventas.repository.modelo.Factura;
 import com.uce.edu.ventas.service.IClienteService;
 import com.uce.edu.ventas.service.IFacturaService;
 import com.uce.edu.ventas.service.IHotelService;
@@ -30,6 +29,7 @@ public class Pa2U3P5JeApplication implements CommandLineRunner {
 	@Autowired
 	private ILibroService libroService;
 
+	
 	// Join Types en Jakarta Persistence (Tipos de joins q se hace en jakarta)
 	// 1)JOIN
 	// 1.1 INNER JOIN
@@ -46,7 +46,47 @@ public class Pa2U3P5JeApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		this.iFacturaService.pruebaSupports();
+		//this.iFacturaService.pruebaSupports();
+//		System.out.println("Nombre hilo: " +Thread.currentThread().getName());
+//		long tiempoInicial = System.currentTimeMillis();
+//		for(int i = 0; i<=10; i++) {
+//			Cliente cliente = new Cliente();
+//			cliente.setApellido("CA" + i);
+//			cliente.setNombre("CN" +i);
+//			this.clienteService.guardar(cliente);
+//		}
+//		long tiempoFinal = System.currentTimeMillis();
+//		
+//		long tiempoTranscurrido = (tiempoFinal - tiempoInicial)/1000 ;
+//		System.out.println("Tiempo transcurrido en seg: " + tiempoTranscurrido);
+	
+		//Programacion en paralelo(multihilo - multi Thread)
+//		long tiempoInicial = System.currentTimeMillis();
+//		List<Cliente> listaCliente = new ArrayList<>();
+//		for(int i = 1; i<=100 ; i++) {
+//			Cliente cliente = new Cliente();
+//			cliente.setApellido("CA" + i);
+//			cliente.setNombre("CN" +i);
+//			listaCliente.add(cliente);
+//		}
+//		listaCliente.stream().forEach(cliente->this.clienteService.guardar(cliente));
+//		long tiempoFinal = System.currentTimeMillis();
+//		long tiempoTranscurrido = (tiempoFinal - tiempoInicial)/1000 ;
+//		System.out.println("Tiempo transcurrido en seg: " + tiempoTranscurrido);
+	
+		long tiempoInicial = System.currentTimeMillis();
+		List<Cliente> listaCliente = new ArrayList<>();
+		for(int i = 1; i<=100 ; i++) {
+			Cliente cliente = new Cliente();
+			cliente.setApellido("CA" + i);
+			cliente.setNombre("CN" +i);
+			listaCliente.add(cliente);
+		}
+		listaCliente.parallelStream().forEach(cliente->this.clienteService.guardar(cliente));
+		long tiempoFinal = System.currentTimeMillis();
+		long tiempoTranscurrido = (tiempoFinal - tiempoInicial)/1000 ;
+		System.out.println("Tiempo transcurrido en seg: " + tiempoTranscurrido);
+		
 	}
 
 }
