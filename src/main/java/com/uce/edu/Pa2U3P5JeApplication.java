@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.uce.edu.ventas.repository.modelo.Cliente;
 import com.uce.edu.ventas.service.IClienteService;
@@ -15,6 +16,7 @@ import com.uce.edu.ventas.service.IHotelService;
 import com.uce.edu.ventas.service.ILibroService;
 
 @SpringBootApplication
+@EnableAsync
 public class Pa2U3P5JeApplication implements CommandLineRunner {
 
 	@Autowired
@@ -74,19 +76,32 @@ public class Pa2U3P5JeApplication implements CommandLineRunner {
 //		long tiempoTranscurrido = (tiempoFinal - tiempoInicial)/1000 ;
 //		System.out.println("Tiempo transcurrido en seg: " + tiempoTranscurrido);
 	
+//		long tiempoInicial = System.currentTimeMillis();
+//		List<Cliente> listaCliente = new ArrayList<>();
+//		for(int i = 1; i<=100 ; i++) {
+//			Cliente cliente = new Cliente();
+//			cliente.setApellido("CA" + i);
+//			cliente.setNombre("CN" +i);
+//			listaCliente.add(cliente);
+//		}
+//		listaCliente.parallelStream().forEach(cliente->this.clienteService.guardar(cliente));
+//		long tiempoFinal = System.currentTimeMillis();
+//		long tiempoTranscurrido = (tiempoFinal - tiempoInicial)/1000 ;
+//		System.out.println("Tiempo transcurrido en seg: " + tiempoTranscurrido);
+		
+		
+		System.out.println("Nombre hilo: " +Thread.currentThread().getName());
 		long tiempoInicial = System.currentTimeMillis();
-		List<Cliente> listaCliente = new ArrayList<>();
-		for(int i = 1; i<=100 ; i++) {
+		for(int i = 0; i<=10; i++) {
 			Cliente cliente = new Cliente();
 			cliente.setApellido("CA" + i);
 			cliente.setNombre("CN" +i);
-			listaCliente.add(cliente);
+			this.clienteService.guardar(cliente);
 		}
-		listaCliente.parallelStream().forEach(cliente->this.clienteService.guardar(cliente));
 		long tiempoFinal = System.currentTimeMillis();
+		
 		long tiempoTranscurrido = (tiempoFinal - tiempoInicial)/1000 ;
 		System.out.println("Tiempo transcurrido en seg: " + tiempoTranscurrido);
-		
 	}
 
 }
